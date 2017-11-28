@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 /**
  * Created by LaunchCode
@@ -16,7 +16,7 @@ import java.util.HashMap;
 @RequestMapping(value = "list")
 public class ListController {
 
-    static HashMap<String, String> columnChoices = new HashMap<>();
+    static java.util.HashMap<String, String> columnChoices = new java.util.HashMap<>();
 
     public ListController () {
         columnChoices.put("core competency", "Skill");
@@ -38,13 +38,15 @@ public class ListController {
     public String listColumnValues(Model model, @RequestParam String column) {
 
         if (column.equals("all")) {
-            ArrayList<HashMap<String, String>> jobs = JobData.findAll();
+            ArrayList<java.util.HashMap<String, String>> jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
+            model.addAttribute("resultHeader", jobs.size() + " Result(s)");
             model.addAttribute("jobs", jobs);
             return "list-jobs";
         } else {
             ArrayList<String> items = JobData.findAll(column);
             model.addAttribute("title", "All " + columnChoices.get(column) + " Values");
+            model.addAttribute("resultHeader", items.size() + " Result(s)");
             model.addAttribute("column", column);
             model.addAttribute("items", items);
             return "list-column";
@@ -56,8 +58,9 @@ public class ListController {
     public String listJobsByColumnAndValue(Model model,
             @RequestParam String column, @RequestParam String value) {
 
-        ArrayList<HashMap<String, String>> jobs = JobData.findByColumnAndValue(column, value);
-        model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
+        ArrayList<java.util.HashMap<String, String>> jobs = JobData.findByColumnAndValue(column, value);
+        model.addAttribute("title", "Jobs With " + columnChoices.get(column) + ": " + value);
+        model.addAttribute("resultHeader", jobs.size() + " Result(s)");
         model.addAttribute("jobs", jobs);
 
         return "list-jobs";

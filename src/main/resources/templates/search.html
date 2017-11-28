@@ -20,7 +20,7 @@
                         name="searchType"
                         th:id="${column.key}"
                         th:value="${column.key}"
-                        th:checked="${column.key == 'all'}"/>
+                        th:checked="${column.key==searchType}"/>
                 <label th:for="${column.key}" th:text="${column.value}"></label>
             </span>
 
@@ -28,7 +28,7 @@
 
         <p>
             <label for="searchTerm">Keyword:</label>
-            <input type="text" name="searchTerm" id="searchTerm" />
+            <input type="text" name="searchTerm" id="searchTerm" th:value="${searchTerm}"/>
         </p>
 
         <input type="submit" value="Search" />
@@ -37,6 +37,54 @@
     <hr />
 
     <!-- TODO #2 - Loop over jobs map to display all job fields -->
+<div>
+    <h3 th:text="${resultHeader}"></h3>
+    <table class="job-listing" th:fragment="table"
+
+        th:each="hashMap : ${jobs}">
+
+            <tr th:each="row : ${hashMap}">
+                <td th:text="${#strings.capitalizeWords(row.key)}"></td>
+                <td th:text="${row.value}"></td>
+            </tr>
+    </table>
+</div>
+
+
+<!--    for (HashMap<String, String> row : jobs) {
+
+    String aValue = row.get(column);
+
+    if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
+    jobs.add(row);
+    }
+    }
+
+    return jobs;
+    }
+
+    <table>
+        <tr th:each="item, idx : ${items}" th:class="${idx.odd} ? 'odd'">
+            <td><a th:href="@{/list/jobs(column=${column},value=${item})}" th:text="${item}"></a></td>
+        </tr>
+    </table>-->
+<!--
+
+    <p th:unless="${cheeses} and ${cheeses.size()}">no cheese :(</p>
+    if (someJobs.size() < 1) {
+    System.out.println("No match for your search.  Try again.");
+    } else {
+
+    // for all jobs
+    for (HashMap<String, String> hashMap : someJobs) {
+    System.out.println("*****");
+
+    for (Map.Entry<String, String> kv : hashMap.entrySet()) {
+    System.out.println(kv.getKey() + ": " + kv.getValue());
+    }
+    System.out.println("*****\n");
+-->
+
 
 </div>
 
